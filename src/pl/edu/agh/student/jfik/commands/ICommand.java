@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package drawinglogic;
+package pl.edu.agh.student.jfik.commands;
 
 /**
  *
  * @author Bartek
  */
-public abstract class TurtleCommand extends Command {
-
+public interface ICommand {
+    
+    public void execute();
+    
 }

@@ -2,18 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package drawinglogic;
+package pl.edu.agh.student.jfik.commands;
+
+import pl.edu.agh.student.jfik.gui.Turtle;
 
 /**
  *
  * @author Bartek
  */
-public class TurtleBehaviorCommand extends TurtleCommand {
+class TurtleBehaviorCommand extends TurtleCommand {
 
-    public enum CommandType {HIDE, SHOW, UP, DOWN};
+    public enum CommandType {HIDE, SHOW, PICK_UP, PUT};
     private CommandType command;
     
-    public TurtleBehaviorCommand(CommandType command) {
+    public TurtleBehaviorCommand(Turtle turtle, CommandType command) {
+        super(turtle);
         this.command = command;
     }
     
@@ -27,11 +30,11 @@ public class TurtleBehaviorCommand extends TurtleCommand {
             case SHOW:
                 turtle().show();
                 break;
-            case UP:
-                turtle().up();
+            case PICK_UP:
+                turtle().pickUp();
                 break;
-            case DOWN:
-                turtle().down();
+            case PUT:
+                turtle().put();
                 break;
         }
         

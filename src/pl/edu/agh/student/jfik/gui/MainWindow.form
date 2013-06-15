@@ -132,7 +132,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runButtonActionPerformed"/>
       </Events>
     </Component>
-    <Container class="gui.Canvas" name="canvas">
+    <Container class="pl.edu.agh.student.jfik.gui.Canvas" name="canvas">
 
       <Layout>
         <DimensionLayout dim="0">

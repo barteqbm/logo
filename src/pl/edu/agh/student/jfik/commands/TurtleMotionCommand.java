@@ -2,20 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package drawinglogic;
+package pl.edu.agh.student.jfik.commands;
+
+import pl.edu.agh.student.jfik.gui.Turtle;
 
 /**
  *
  * @author Bartek
  */
-public class TurtleMotionCommand extends TurtleCommand {
+class TurtleMotionCommand extends TurtleCommand {
 
     public enum CommandType {ROTATE, GO_FORWARD, GO_BACK};
     private CommandType command;
     private double value = 0.0;
     
-    public TurtleMotionCommand(CommandType command, double value) {
-        super();
+    public TurtleMotionCommand(Turtle turtle, CommandType command, double value) {
+        super(turtle);
         this.command = command;
         this.value = value;
     }

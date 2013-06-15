@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package math;
+package pl.edu.agh.student.jfik.math;
 
 /**
  *
@@ -12,14 +12,14 @@ public class UnitVector2 {
     
     public UnitVector2( ) {
         x = 0.0f;
-        y = 1.0f;
+        y = -1.0f;
     }
     
     public void rotate(double degrees) {
         alpha = (alpha + Math.toRadians(degrees));// % (2.0 * Math.PI);
                         
         x = Math.cos(alpha);
-        y = Math.sin(alpha);
+        y = -1.0 * Math.sin(alpha);
     }    
     
     public double getX() {

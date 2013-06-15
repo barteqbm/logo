@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package pl.edu.agh.student.jfik.gui;
 
-import drawinglogic.TurtleMotionCommand;
-import drawinglogic.TurtlePositionCommand;
+import pl.edu.agh.student.jfik.input.InputProcessor;
+
 
 /**
  *
@@ -20,6 +20,8 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         
         paintManager = new PaintManager(canvas);
+        
+        inputProcessor = new InputProcessor(paintManager);
     }
 
     /**
@@ -34,7 +36,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         runButton = new javax.swing.JButton();
-        canvas = new gui.Canvas();
+        canvas = new pl.edu.agh.student.jfik.gui.Canvas();
         jScrollPane1 = new javax.swing.JScrollPane();
         commandField = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -153,6 +155,7 @@ public class MainWindow extends javax.swing.JFrame {
         
         paintManager.test();
         
+        inputProcessor.processInput(commandField.getText());
     }//GEN-LAST:event_runButtonActionPerformed
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
@@ -166,17 +169,20 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoMenuItemActionPerformed
         // TODO add your handling code here:
+        paintManager.undo();
     }//GEN-LAST:event_undoMenuItemActionPerformed
 
     private void redoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoMenuItemActionPerformed
         // TODO add your handling code here:
+        paintManager.redo();
     }//GEN-LAST:event_redoMenuItemActionPerformed
 
     private PaintManager paintManager = null;
+    private InputProcessor inputProcessor = null;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
-    private gui.Canvas canvas;
+    private pl.edu.agh.student.jfik.gui.Canvas canvas;
     private javax.swing.JTextPane commandField;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu jMenu1;

@@ -11,7 +11,7 @@ import com.sun.org.apache.xml.internal.security.utils.JavaUtils;
  * @author Bartek
  */
 
-import gui.MainWindow;
+import pl.edu.agh.student.jfik.gui.MainWindow;
 import javax.swing.SwingUtilities;
 
 public class LogoGUI {
