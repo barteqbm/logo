@@ -4,10 +4,16 @@
  */
 package pl.edu.agh.student.jfik.gui;
 
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 import pl.edu.agh.student.jfik.input.InputProcessor;
-
 
 /**
  *
@@ -15,7 +21,8 @@ import pl.edu.agh.student.jfik.input.InputProcessor;
  */
 public class MainWindow extends javax.swing.JFrame {
 
-    /**
+    private static final String ABOUT_TEXT = "Logo interproter\nB. Miga, J. Rakoczy, P. Synowiec\n(c) 2013";
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -42,12 +49,19 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        runButton = new javax.swing.JButton();
+        jSplitPane1 = new javax.swing.JSplitPane();
         canvas = new pl.edu.agh.student.jfik.gui.Canvas();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        commandField = new javax.swing.JTextPane();
+        commandField = new javax.swing.JTextArea();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        scriptEditor = new javax.swing.JTextArea();
+        runButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         undoMenuItem = new javax.swing.JMenuItem();
@@ -61,6 +75,34 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Logo interpreter");
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+
+        javax.swing.GroupLayout canvasLayout = new javax.swing.GroupLayout(canvas);
+        canvas.setLayout(canvasLayout);
+        canvasLayout.setHorizontalGroup(
+            canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 652, Short.MAX_VALUE)
+        );
+        canvasLayout.setVerticalGroup(
+            canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 532, Short.MAX_VALUE)
+        );
+
+        jSplitPane1.setRightComponent(canvas);
+
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
+
+        commandField.setColumns(20);
+        commandField.setRows(5);
+        jScrollPane1.setViewportView(commandField);
+
+        jPanel2.add(jScrollPane1);
+
+        jTabbedPane1.addTab("Command line", jPanel2);
+
+        scriptEditor.setColumns(20);
+        scriptEditor.setRows(5);
+        jScrollPane2.setViewportView(scriptEditor);
 
         runButton.setText("Run");
         runButton.addActionListener(new java.awt.event.ActionListener() {
@@ -69,20 +111,36 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout canvasLayout = new javax.swing.GroupLayout(canvas);
-        canvas.setLayout(canvasLayout);
-        canvasLayout.setHorizontalGroup(
-            canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
+            .addComponent(runButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        canvasLayout.setVerticalGroup(
-            canvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(runButton))
         );
 
-        jScrollPane1.setViewportView(commandField);
+        jTabbedPane1.addTab("Script", jPanel3);
+
+        jSplitPane1.setLeftComponent(jTabbedPane1);
+
+        getContentPane().add(jSplitPane1);
 
         jMenu1.setText("File");
+
+        jMenuItem4.setText("Open script");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
 
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -128,57 +186,17 @@ public class MainWindow extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(canvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(runButton)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(canvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(runButton)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-        // TODO add your handling code here:
-        
-        //paintManager.test();
-        SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				inputProcessor.processInput(commandField.getText());		
-			}
-		});
-        
-    }//GEN-LAST:event_runButtonActionPerformed
-
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         // TODO add your handling code here:
-        
+    	dispose();
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
         // TODO add your handling code here:
+    	JOptionPane.showMessageDialog(this, ABOUT_TEXT, "About", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoMenuItemActionPerformed
@@ -191,13 +209,63 @@ public class MainWindow extends javax.swing.JFrame {
         paintManager.redo();
     }//GEN-LAST:event_redoMenuItemActionPerformed
 
+    private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
+        // TODO add your handling code here:
+
+        //paintManager.test();
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                inputProcessor.processInput(scriptEditor.getText());
+            }
+        });
+
+    }//GEN-LAST:event_runButtonActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        
+        final JFileChooser fc = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("text only","txt");
+        fc.setFileFilter(filter);
+        int returnVal = fc.showOpenDialog(this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+           
+            File file = fc.getSelectedFile();
+            
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                StringBuilder sb = new StringBuilder();
+                String line = br.readLine();
+
+                br.close();
+                
+                while (line != null) {
+                    sb.append(line);
+                    sb.append("\n");
+                    line = br.readLine();
+                }
+                String script = sb.toString();
+                
+                scriptEditor.setText(script);
+            } catch(IOException e) {
+                
+            } finally {
+            	
+            }
+        } 
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     private PaintManager paintManager = null;
     private InputProcessor inputProcessor = null;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private pl.edu.agh.student.jfik.gui.Canvas canvas;
-    private javax.swing.JTextPane commandField;
+    private javax.swing.JTextArea commandField;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -205,9 +273,16 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem redoMenuItem;
     private javax.swing.JButton runButton;
+    private javax.swing.JTextArea scriptEditor;
     private javax.swing.JMenuItem undoMenuItem;
     // End of variables declaration//GEN-END:variables
 }

@@ -35,9 +35,11 @@ public class PaintManager implements ComponentListener {
     public PaintManager(Canvas canvas) {
 
         this.canvas = canvas;
+        canvas.addComponentListener(this);
+        
         turtle = new Turtle(canvas);
         commandsFacotry = new CommandsFactory(this, turtle);
-        canvas.addComponentListener(this);
+        
         
         this.canvas.setVisible(true);
         this.canvas.updateUI();
@@ -150,7 +152,6 @@ public class PaintManager implements ComponentListener {
 
     @Override
     public void componentShown(ComponentEvent e) {
-        // Do nothing
         redraw();
     }
 
