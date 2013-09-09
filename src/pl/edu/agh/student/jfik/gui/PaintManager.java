@@ -13,9 +13,12 @@ import pl.edu.agh.student.jfik.commands.CommandsFactory;
 import java.awt.Color;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
+
 import javax.swing.SwingUtilities;
 import pl.edu.agh.student.jfik.commands.ICommand;
 
@@ -26,18 +29,18 @@ public class PaintManager implements ComponentListener {
     private List<ICommand> commands = new LinkedList<>();
     private ListIterator<ICommand> iterator = commands.listIterator();
     private CommandsFactory commandsFacotry = null;
+    
+    private Map<String, ICommand> procedures = new HashMap<>();
 
-    public PaintManager(Canvas panel) {
+    public PaintManager(Canvas canvas) {
 
-        this.canvas = panel;
-        this.canvas.setVisible(true);
-        turtle = new Turtle(panel);
-
+        this.canvas = canvas;
+        turtle = new Turtle(canvas);
         commandsFacotry = new CommandsFactory(this, turtle);
+        canvas.addComponentListener(this);
         
-        panel.addComponentListener(this);
-        
-        redraw();
+        this.canvas.setVisible(true);
+        this.canvas.updateUI();
     }
     
     public CommandsFactory commandsFactory() {        
@@ -49,10 +52,16 @@ public class PaintManager implements ComponentListener {
         
         redraw();
     }
+    
+    public void addProcedure(String name, ICommand procedure) {
+    	procedures.put(name, procedure);
+    }
+    
+    public ICommand getProcedure(String name) {
+    	return procedures.get(name);
+    }
 
     private void executeCommands() {
-        canvas.clear();
-        turtle.reset();
         ListIterator<ICommand> it = commands.listIterator();
         for (; it.hasNext() && it != iterator;) {
         	it.next().execute();
@@ -61,6 +70,7 @@ public class PaintManager implements ComponentListener {
 
     public void reset() {
         commands.clear();
+        procedures.clear();
     }
 
     public void undo() {

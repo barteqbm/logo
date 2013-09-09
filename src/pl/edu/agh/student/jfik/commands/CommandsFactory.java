@@ -78,6 +78,14 @@ public class CommandsFactory {
         return new TurtleColorCommand(turtle, color);
     }
     
+    public ICommand defineProcedure(String name, ICommand command) {
+    	return new DefineProcedureCommand(paintManager, name, command);
+    }
+    
+    public ICommand ExecuteProcedure(String procedureName) {
+    	return new ExecuteProcedureCommand(paintManager, procedureName);
+    }
+    
     //--------------------- Canvas commands -------------------------------------------------
     public ICommand resetCanvas() {
         return new PainterCommand(paintManager, PainterCommand.CommandType.RESET);
