@@ -4,6 +4,8 @@
  */
 package pl.edu.agh.student.jfik.gui;
 
+import javax.swing.SwingUtilities;
+
 import pl.edu.agh.student.jfik.input.InputProcessor;
 
 
@@ -159,8 +161,15 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         //paintManager.test();
+        SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				inputProcessor.processInput(commandField.getText());		
+			}
+		});
         
-        inputProcessor.processInput(commandField.getText());
     }//GEN-LAST:event_runButtonActionPerformed
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed

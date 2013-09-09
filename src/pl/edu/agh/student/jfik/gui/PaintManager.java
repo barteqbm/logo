@@ -33,37 +33,30 @@ public class PaintManager implements ComponentListener {
         this.canvas.setVisible(true);
         turtle = new Turtle(panel);
 
+        commandsFacotry = new CommandsFactory(this, turtle);
+        
         panel.addComponentListener(this);
+        
+        redraw();
     }
     
-    public CommandsFactory commandsFactory() {
-        
-        if( commandsFacotry == null )
-        {
-            commandsFacotry = new CommandsFactory(this, turtle);
-        }
-        
+    public CommandsFactory commandsFactory() {        
         return commandsFacotry;
     }
 
     public void queueCommand(ICommand command) {
-        
         iterator.add(command);
         
         redraw();
     }
 
     private void executeCommands() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ListIterator<ICommand> it = commands.listIterator();
-                for (; it.hasNext() && it != iterator;) {
-                    it.next().execute();
-                }
-                turtle.draw();
-            }
-        });
+        canvas.clear();
+        turtle.reset();
+        ListIterator<ICommand> it = commands.listIterator();
+        for (; it.hasNext() && it != iterator;) {
+        	it.next().execute();
+        }
     }
 
     public void reset() {
@@ -86,8 +79,7 @@ public class PaintManager implements ComponentListener {
 
     public void clear() {
     	reset();
-        canvas.clear();
-        turtle.draw();
+        redraw();
     }
     
     public void test() {
@@ -122,14 +114,22 @@ public class PaintManager implements ComponentListener {
     }
 
     private void redraw() {
-        turtle.reset();
-        canvas.clear();
-        executeCommands();
+    	canvas.updateUI();
+    	SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				canvas.recalculateOffset();
+				canvas.clear();
+				turtle.reset();
+		        
+		        executeCommands();
+		        turtle.draw();
+			}
+		});
     }
 
     @Override
     public void componentResized(ComponentEvent e) {
-        canvas.recalculateOffset();
         redraw();
     }
 
@@ -141,7 +141,6 @@ public class PaintManager implements ComponentListener {
     @Override
     public void componentShown(ComponentEvent e) {
         // Do nothing
-        canvas.recalculateOffset();
         redraw();
     }
 

@@ -74,7 +74,6 @@ public class Canvas extends javax.swing.JPanel {
     	Graphics g = this.getGraphics();
     	g.setColor(color);
     	
-    	
     }
     
     public void dravTriangle(Triangle triangle, Color color) {

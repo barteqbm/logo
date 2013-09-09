@@ -20,7 +20,7 @@ public class Turtle {
     private Canvas canvas = null;
     // Turtle's state
     private boolean isUp = false;
-    private Color color = Color.GREEN;
+    private Color color = Color.BLACK;
     private boolean isVisible = true;
     
     // Turtle's triangle
@@ -31,8 +31,6 @@ public class Turtle {
     // Turtle's rotation Matrix
     Matrix2x2 rotationMatrix = MatrixFactory.createRotationMatrix(0.0);
     
-
-
     public Turtle(Canvas canvas) {
         this.canvas = canvas;
     }
@@ -50,7 +48,7 @@ public class Turtle {
 
     public void put() {
         isUp = false;
-        color = Color.GREEN;
+        color = Color.BLACK;
     }
 
     public void setColor(Color color) {
@@ -104,7 +102,7 @@ public class Turtle {
     public void reset() {
         triangle = new Triangle(new Vector2(0.0, 0.0));
         nextPosition = new Vector2(0.0, 0.0);
-        color = Color.GREEN;
+        color = Color.BLACK;
         show();
         put();
     }
@@ -127,6 +125,5 @@ public class Turtle {
 
     private void updatePosition() {
         triangle.setPosition(nextPosition);
-        draw();
     }
 }
