@@ -13,11 +13,10 @@ import pl.edu.agh.student.jfik.commands.CommandsFactory;
 import java.awt.Color;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.ArrayDeque;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
+import java.util.Stack;
 
 import javax.swing.SwingUtilities;
 import pl.edu.agh.student.jfik.commands.ICommand;
@@ -26,9 +25,10 @@ public class PaintManager implements ComponentListener {
 
     private Canvas canvas = null;
     private Turtle turtle = null;
-    private List<ICommand> commands = new LinkedList<>();
-    private ListIterator<ICommand> iterator = commands.listIterator();
+    private ArrayDeque<ICommand> commands = new ArrayDeque<>();
+    
     private CommandsFactory commandsFacotry = null;
+    private Stack<ICommand> commandsHistory = new Stack<>();
     
     private Map<String, ICommand> procedures = new HashMap<>();
 
@@ -50,7 +50,10 @@ public class PaintManager implements ComponentListener {
     }
 
     public void queueCommand(ICommand command) {
-        iterator.add(command);
+    	if(command != null) {
+    		commands.add(command);
+    		commandsHistory.clear();
+    	}
         
         redraw();
     }
@@ -64,9 +67,9 @@ public class PaintManager implements ComponentListener {
     }
 
     private void executeCommands() {
-        ListIterator<ICommand> it = commands.listIterator();
-        for (; it.hasNext() && it != iterator;) {
-        	it.next().execute();
+        
+        for(ICommand command : commands) {
+        	command.execute();
         }
     }
 
@@ -76,16 +79,22 @@ public class PaintManager implements ComponentListener {
     }
 
     public void undo() {
-        if (iterator.hasPrevious()) {
-            iterator.previous();
+        ICommand command = commands.removeLast();
+        if(command != null) {
+        	commandsHistory.push(command);
         }
+        
         redraw();
     }
 
     public void redo() {
-        if (iterator.hasNext()) {
-            iterator.next();
+        if(!commandsHistory.isEmpty()) {
+        	ICommand command = commandsHistory.pop();
+        	if(command != null) {
+        		commands.add(command);
+        	}
         }
+    	
         redraw();
     }
 
