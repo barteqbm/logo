@@ -15,7 +15,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class CommandsSequence implements ICommand {
 
     public void addCommand(ICommand command) {
-        commandsQueue.add(command);
+    	if(command != null) {
+    		commandsQueue.add(command);
+    	}
     }
 
     //

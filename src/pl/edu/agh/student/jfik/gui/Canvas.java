@@ -4,12 +4,22 @@
  */
 package pl.edu.agh.student.jfik.gui;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
+
+import pl.edu.agh.student.jfik.math.Triangle;
+import pl.edu.agh.student.jfik.math.Vector2;
+
 /**
  *
  * @author Bartek
  */
 public class Canvas extends javax.swing.JPanel {
 
+	double xOffset = 0;
+	double yOffset = 0;
+	
     /**
      * Creates new form Canvas
      */
@@ -17,6 +27,11 @@ public class Canvas extends javax.swing.JPanel {
         initComponents();
     }
 
+    public void recalculateOffset() {
+    	xOffset = (double)this.getWidth() / 2.0;
+    	yOffset = (double)this.getHeight() / 2.0;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,4 +56,37 @@ public class Canvas extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    public void drawLine(Vector2 p1, Vector2 p2, Color color) {
+    	Graphics g = this.getGraphics();
+    	g.setColor(color);
+    	
+    	g.drawLine((int)(Math.round(xOffset + p1.getX())),	(int)(Math.round(yOffset - p1.getY())),
+    			(int)(Math.round(xOffset + p2.getX())), (int)(Math.round(yOffset - p2.getY())));
+    	
+    }
+    
+    public void drawPoint(Vector2 p, Color color) {
+    	Graphics g = this.getGraphics();
+    	g.setColor(color);
+    	
+    	
+    }
+    
+    public void dravTriangle(Triangle triangle, Color color) {
+    	Vector2[] vertexes = triangle.vertexes();
+    	Vector2 p1, p2;
+    	
+    	for(int i = 0; i < vertexes.length; i++) {
+    		p1 = vertexes[i];
+    		p2 = vertexes[(i+1)%3];
+    		drawLine(p1, p2, color);
+    	}
+    }
+    
+    public void clear() {
+    	Graphics g = this.getGraphics();
+    	
+    	g.setColor(Color.WHITE);
+    }
 }

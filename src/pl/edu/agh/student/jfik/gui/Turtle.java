@@ -6,9 +6,15 @@ package pl.edu.agh.student.jfik.gui;
 
 import java.awt.Graphics;
 import java.awt.Color;
+import java.util.regex.Matcher;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import pl.edu.agh.student.jfik.math.UnitVector2;
+
+import pl.edu.agh.student.jfik.math.Matrix2x2;
+import pl.edu.agh.student.jfik.math.MatrixFactory;
+import pl.edu.agh.student.jfik.math.Triangle;
+import pl.edu.agh.student.jfik.math.Vector2;
 
 /**
  *
@@ -16,42 +22,40 @@ import pl.edu.agh.student.jfik.math.UnitVector2;
  */
 public class Turtle {
 
-    private JPanel panel = null;
+    private Canvas canvas = null;
     // Turtle's state
     private boolean isUp = false;
-    private Color color = Color.BLACK;
-    private pl.edu.agh.student.jfik.math.UnitVector2 direction = new pl.edu.agh.student.jfik.math.UnitVector2();
+    private Color color = Color.GREEN;
     private boolean isVisible = true;
-    // Turtle's position
-    private double x = 0.0;
-    private double y = 0.0;
-    private double nextX = 0.0;
-    private double nextY = 0.0;
     
-    private double xOffset = 0.0;
-    private double yOffeset = 0.0;
+    // Turtle's triangle
+    Triangle triangle = new Triangle(new Vector2(0.0, 0.0));    
 
-    public Turtle(JPanel panel) {
-        this.panel = panel;
-    }
+    private Vector2 nextPosition = new Vector2(0.0, 0.0);
+    
+    // Turtle's rotation Matrix
+    Matrix2x2 rotationMatrix = MatrixFactory.createRotationMatrix(0.0);
+    
 
-    public void setOffset(double xoffset, double yoffset) {
-        this.xOffset = Math.round(xoffset);
-        this.yOffeset = Math.round(yoffset);
-        
+
+    public Turtle(Canvas canvas) {
+        this.canvas = canvas;
     }
     
     // In degrees, not radians!
     public void rotate(double degrees) {
-        direction.rotate(degrees);
+        rotationMatrix = MatrixFactory.createRotationMatrix(degrees);
+        triangle.rotate(rotationMatrix);
     }
 
     public void pickUp() {
         isUp = true;
+        color = Color.GRAY;
     }
 
     public void put() {
         isUp = false;
+        color = Color.GREEN;
     }
 
     public void setColor(Color color) {
@@ -66,9 +70,7 @@ public class Turtle {
             return;
         }
 
-        Graphics g = panel.getGraphics();
-        g.setColor(color);
-        g.drawLine((int) x, (int) y, (int) nextX, (int) nextY);
+        canvas.drawLine(triangle.position(), nextPosition, color);
 
         updatePosition();
     }
@@ -81,21 +83,16 @@ public class Turtle {
             return;
         }
 
-        Graphics g = panel.getGraphics();
-        g.setColor(color);
-        g.drawLine((int) x, (int) y, (int) nextX, (int) nextY);
+        canvas.drawLine(triangle.position(), nextPosition, color);
 
         updatePosition();
     }
 
     public void goTo(double x, double y) {
-        nextX = Math.round(x + xOffset);
-        nextY = Math.round(y + yOffeset);
+        nextPosition = new Vector2(x, y);
 
         if (!isUp) {
-            Graphics g = panel.getGraphics();
-            g.setColor(color);
-            g.drawLine((int)this.x, (int) this.y, (int) nextX, (int) nextY);
+            canvas.drawLine(triangle.position(), nextPosition, color);
         }
 
         updatePosition();
@@ -110,35 +107,31 @@ public class Turtle {
     }
 
     public void reset() {
-        x = Math.round(0.0 + xOffset);
-        y = Math.round(0.0 + yOffeset);
-        nextX = 0.0;
-        nextY = 0.0;
-        color = Color.BLACK;
-        direction = new UnitVector2();
+        triangle = new Triangle(new Vector2(0.0, 0.0));
+        nextPosition = new Vector2(0.0, 0.0);
+        color = Color.GREEN;
         show();
         put();
     }
 
     public void draw() {
         if (isVisible) {
-            // TODO:
-            // Draw turtle
+        	canvas.dravTriangle(triangle, color);
         }
     }
 
     private void moveForward(double distance) {
-        nextX = Math.round(x + distance * direction.getX());
-        nextY = Math.round(y + distance * direction.getY());
+        Vector2 translaction = Vector2.multiply(triangle.direction(), distance);
+        nextPosition = Vector2.translate(triangle.position(), translaction);
     }
     
     private void moveBack(double distance) {
-        nextX = Math.round(x - distance * direction.getX());
-        nextY = Math.round(y - distance * direction.getY());
+        Vector2 translaction = Vector2.multiply(triangle.direction(), -distance);
+        nextPosition = Vector2.translate(triangle.position(), translaction);
     }
 
     private void updatePosition() {
-        x = nextX;
-        y = nextY;
+        triangle.setPosition(nextPosition);
+        draw();
     }
 }

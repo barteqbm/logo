@@ -7,9 +7,9 @@ package pl.edu.agh.student.jfik.parser;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
 import pl.edu.agh.student.jfik.commands.CommandsFactory;
 import pl.edu.agh.student.jfik.commands.ICommand;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -28,7 +28,7 @@ public class Parser {
         logoParser = new LogoParser(System.in); //TODO!
     }
     
-    public double parse(String input) throws Exception {
+    public ICommand parse(String input) throws Exception {
         InputStream streamIn = new ByteArrayInputStream(input.getBytes());
         logoParser.ReInit(streamIn);
         return logoParser.parse(factory);

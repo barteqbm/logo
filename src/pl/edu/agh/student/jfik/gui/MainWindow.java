@@ -22,6 +22,7 @@ public class MainWindow extends javax.swing.JFrame {
         paintManager = new PaintManager(canvas);
         
         inputProcessor = new InputProcessor(paintManager);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     /**

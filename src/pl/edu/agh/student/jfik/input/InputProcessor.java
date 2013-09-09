@@ -33,10 +33,9 @@ public class InputProcessor {
         
         try
         {
-            //ICommand command = parser.parse(input);
-            double d = parser.parse(input);
+            ICommand command = parser.parse(input);
                     
-            //paintManager.queueCommand(command);
+            paintManager.queueCommand(command);
         }
         catch( Exception e ) // parser should throw an exception when command is wrong
         {

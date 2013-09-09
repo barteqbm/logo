@@ -23,27 +23,27 @@ import pl.edu.agh.student.jfik.commands.ICommand;
 
 public class PaintManager implements ComponentListener {
 
-    private JPanel canvas = null;
+    private Canvas canvas = null;
     private Turtle turtle = null;
     private List<ICommand> commands = new LinkedList<>();
     private ListIterator<ICommand> iterator = commands.listIterator();
     private CommandsFactory commandsFacotry = null;
 
-    public PaintManager(JPanel panel) {
+    public PaintManager(Canvas panel) {
 
         this.canvas = panel;
         this.canvas.setVisible(true);
         turtle = new Turtle(panel);
 
         panel.addComponentListener(this);
-
-        turtle.setOffset(panel.getWidth() / 2.0, panel.getHeight() / 2.0 );
     }
     
     public CommandsFactory commandsFactory() {
         
         if( commandsFacotry == null )
+        {
             commandsFacotry = new CommandsFactory(this, turtle);
+        }
         
         return commandsFacotry;
     }
@@ -51,14 +51,7 @@ public class PaintManager implements ComponentListener {
     public void queueCommand(ICommand command) {
         
         iterator.add(command);
-        command.execute();
-        //
-        // TODO:
-        // Change it! Each previous step should be
-        // performed only when canvas has been resized,
-        // or undo / redo action has been raised.
-        // Oh! My english...
-        //
+        
         redraw();
     }
 
@@ -94,9 +87,9 @@ public class PaintManager implements ComponentListener {
     }
 
     public void clear() {
-        Graphics g = canvas.getGraphics();
-
-        g.setColor(Color.WHITE);
+    	reset();
+        canvas.clear();
+        turtle.draw();
     }
     
     public void test() {
@@ -128,21 +121,17 @@ public class PaintManager implements ComponentListener {
         sequence.addCommand(repeat2);
         
         queueCommand(sequence);
-        
-        
-        
     }
 
     private void redraw() {
         turtle.reset();
-
+        canvas.clear();
         executeCommands();
     }
 
     @Override
     public void componentResized(ComponentEvent e) {
-        turtle.setOffset(e.getComponent().getWidth() / 2.0, e.getComponent().getHeight() / 2.0);
-
+        canvas.recalculateOffset();
         redraw();
     }
 
@@ -154,7 +143,8 @@ public class PaintManager implements ComponentListener {
     @Override
     public void componentShown(ComponentEvent e) {
         // Do nothing
-        turtle.setOffset(e.getComponent().getWidth() / 2.0, e.getComponent().getHeight() / 2.0);
+        canvas.recalculateOffset();
+        redraw();
     }
 
     @Override
