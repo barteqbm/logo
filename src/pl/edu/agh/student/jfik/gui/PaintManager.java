@@ -11,13 +11,11 @@ import pl.edu.agh.student.jfik.commands.CommandsFactory;
  * @author Bartek
  */
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import pl.edu.agh.student.jfik.commands.ICommand;
 

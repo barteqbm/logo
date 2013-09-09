@@ -1,7 +1,5 @@
 package pl.edu.agh.student.jfik.math;
 
-import java.util.Vector;
-
 public class Vector2 {
 	private double x;
 	private double y;

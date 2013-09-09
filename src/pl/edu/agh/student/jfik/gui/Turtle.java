@@ -4,12 +4,7 @@
  */
 package pl.edu.agh.student.jfik.gui;
 
-import java.awt.Graphics;
 import java.awt.Color;
-import java.util.regex.Matcher;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import pl.edu.agh.student.jfik.math.Matrix2x2;
 import pl.edu.agh.student.jfik.math.MatrixFactory;
