@@ -4,7 +4,7 @@
  */
 package pl.edu.agh.student.jfik.gui;
 
-import pl.edu.agh.student.jfik.commands.CommandsFacotry;
+import pl.edu.agh.student.jfik.commands.CommandsFactory;
 
 /**
  *
@@ -27,7 +27,7 @@ public class PaintManager implements ComponentListener {
     private Turtle turtle = null;
     private List<ICommand> commands = new LinkedList<>();
     private ListIterator<ICommand> iterator = commands.listIterator();
-    private CommandsFacotry commandsFacotry = null;
+    private CommandsFactory commandsFacotry = null;
 
     public PaintManager(JPanel panel) {
 
@@ -40,10 +40,10 @@ public class PaintManager implements ComponentListener {
         turtle.setOffset(panel.getWidth() / 2.0, panel.getHeight() / 2.0 );
     }
     
-    public CommandsFacotry commandsFactory() {
+    public CommandsFactory commandsFactory() {
         
         if( commandsFacotry == null )
-            commandsFacotry = new CommandsFacotry(this, turtle);
+            commandsFacotry = new CommandsFactory(this, turtle);
         
         return commandsFacotry;
     }

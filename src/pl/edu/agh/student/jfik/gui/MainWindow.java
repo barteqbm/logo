@@ -153,7 +153,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
         // TODO add your handling code here:
         
-        paintManager.test();
+        //paintManager.test();
         
         inputProcessor.processInput(commandField.getText());
     }//GEN-LAST:event_runButtonActionPerformed

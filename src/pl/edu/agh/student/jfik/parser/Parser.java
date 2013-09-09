@@ -4,7 +4,10 @@
  */
 package pl.edu.agh.student.jfik.parser;
 
-import pl.edu.agh.student.jfik.commands.CommandsFacotry;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import pl.edu.agh.student.jfik.commands.CommandsFactory;
 import pl.edu.agh.student.jfik.commands.ICommand;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -14,14 +17,21 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Parser {
     
-    private CommandsFacotry factory = null;
+    private CommandsFactory factory = null;
+    private LogoParser logoParser;
     
-    public Parser(CommandsFacotry factory) {
+    public Parser(CommandsFactory factory) {
         this.factory = factory;
     }
     
-    public ICommand parse(String input) throws Exception {
-         
+    public void createLogoParser(){
+        logoParser = new LogoParser(System.in); //TODO!
+    }
+    
+    public double parse(String input) throws Exception {
+        InputStream streamIn = new ByteArrayInputStream(input.getBytes());
+        logoParser.ReInit(streamIn);
+        return logoParser.parse(factory);
         // TODO:
         // Create pareser and mplement me!
         
@@ -30,7 +40,7 @@ public class Parser {
         // Sequence of commands and loops also are commands (they implement ICommand interface).
         // test() method in PaintManager shows how to use them.
         //
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
         
     }
 }

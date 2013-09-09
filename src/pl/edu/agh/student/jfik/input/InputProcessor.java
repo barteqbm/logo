@@ -4,7 +4,7 @@
  */
 package pl.edu.agh.student.jfik.input;
 
-import pl.edu.agh.student.jfik.commands.CommandsFacotry;
+import pl.edu.agh.student.jfik.commands.CommandsFactory;
 import pl.edu.agh.student.jfik.commands.ICommand;
 import pl.edu.agh.student.jfik.gui.PaintManager;
 import pl.edu.agh.student.jfik.parser.Parser;
@@ -15,7 +15,7 @@ import pl.edu.agh.student.jfik.parser.Parser;
  */
 public class InputProcessor {
     
-    private CommandsFacotry factory = null;
+    private CommandsFactory factory = null;
     private PaintManager paintManager = null;
     
     private Parser parser = null;
@@ -25,6 +25,7 @@ public class InputProcessor {
         this.factory = manager.commandsFactory();
         
         parser = new Parser(factory);
+        parser.createLogoParser();
     }
     
     // input parameter represents string from text field in main window gui
@@ -32,8 +33,10 @@ public class InputProcessor {
         
         try
         {
-            ICommand command = parser.parse(input);
-            paintManager.queueCommand(command);
+            //ICommand command = parser.parse(input);
+            double d = parser.parse(input);
+                    
+            //paintManager.queueCommand(command);
         }
         catch( Exception e ) // parser should throw an exception when command is wrong
         {

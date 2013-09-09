@@ -11,8 +11,8 @@ import pl.edu.agh.student.jfik.gui.PaintManager;
  *
  * @author Bartek
  */
-public class CommandsFacotry {
-    public CommandsFacotry(PaintManager paintManager, Turtle turtle) {
+public class CommandsFactory {
+    public CommandsFactory(PaintManager paintManager, Turtle turtle) {
         this.paintManager = paintManager;
         this.turtle = turtle;
     }
