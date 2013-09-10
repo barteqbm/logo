@@ -29,12 +29,12 @@ public class InputProcessor {
     }
     
     // input parameter represents string from text field in main window gui
-    public void processInput(String input) {
-        
+    public boolean processInput(String input) {
+        ICommand command = null;
         try
         {
-            ICommand command = parser.parse(input);
-                    
+            command = parser.parse(input);
+            
             paintManager.queueCommand(command);
         }
         catch( Exception e ) // parser should throw an exception when command is wrong
@@ -42,6 +42,11 @@ public class InputProcessor {
             // display error message
         }
        
+        if(command != null) {
+        	return true;
+        } else {
+        	return false;
+        }
         
     }
     

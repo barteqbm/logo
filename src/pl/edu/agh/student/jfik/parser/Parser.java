@@ -32,15 +32,5 @@ public class Parser {
         InputStream streamIn = new ByteArrayInputStream(input.getBytes());
         logoParser.ReInit(streamIn);
         return logoParser.parse(factory);
-        // TODO:
-        // Create pareser and mplement me!
-        
-        //
-        //Parser builds appropriate commands using methods from CommandsFactory.
-        // Sequence of commands and loops also are commands (they implement ICommand interface).
-        // test() method in PaintManager shows how to use them.
-        //
-        //throw new NotImplementedException();
-        
     }
 }

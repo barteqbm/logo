@@ -35,6 +35,10 @@ public class MainWindow extends javax.swing.JFrame {
         paintManager = new PaintManager(canvas);
         
         inputProcessor = new InputProcessor(paintManager);
+        
+        commadLine = new CommandLine(commandField, inputProcessor);
+                
+        
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -261,6 +265,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private PaintManager paintManager = null;
     private InputProcessor inputProcessor = null;
+    private CommandLine commadLine = null;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
